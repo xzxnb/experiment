@@ -317,24 +317,38 @@ def MLN_TV2(mln1: str,mln2: str):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    mln1 = "models\\k_colored_graph_1.mln"
-    mln2 = "models\\k_colored_graph_1.mln"
+    mln1 = "models\\k_colored_graph_11.mln"
+    mln2 = "models\\k_colored_graph_12.mln"
+    mln3 = "models\\k_colored_graph_13.mln"
 
     weight1 = [0.1*(i+1) for i in range(20)]
     weight2 = [0.1*(i+1) for i in range(20)]
     combinations = list(itertools.product(weight1, weight2))
-    result = []
+    result1 = []
+    result2 = []
+    result3 = []
     # 注意polinomial.py/coeff_dict函数里的处理
     w1 = create_vars("w1")
     w2 = create_vars("w2")
 
-    [x, y, res] = MLN_TV(mln1, mln2, w1, w2)
-
+    [x, y, res1] = MLN_TV(mln1, mln1, w1, w2)
+    [x, y, res2] = MLN_TV(mln2, mln2, w1, w2)
+    [x, y, res3] = MLN_TV(mln3, mln3, w1, w2)
     for w in combinations:
-        result.append([w[0], w[1], res.subs({w1: w[0], w2: w[1]})])
+        result1.append([w[0], w[1], res1.subs({w1: w[0], w2: w[1]})])
+        result2.append([w[0], w[1], res2.subs({w1: w[0], w2: w[1]})])
+        result3.append([w[0], w[1], res3.subs({w1: w[0], w2: w[1]})])
     # 创建DataFrame，并指定列名
-    df = pd.DataFrame(result, columns=["weight1", "weight2", "TV"])
+    df = pd.DataFrame(result1, columns=["weight1", "weight2", "TV"])
     excel_filename = "k_color1_domain10.xlsx"
+    df.to_excel(excel_filename, index=False)
+
+    df = pd.DataFrame(result2, columns=["weight1", "weight2", "TV"])
+    excel_filename = "k_color1_domain15.xlsx"
+    df.to_excel(excel_filename, index=False)
+
+    df = pd.DataFrame(result3, columns=["weight1", "weight2", "TV"])
+    excel_filename = "k_color1_domain20.xlsx"
     df.to_excel(excel_filename, index=False)
 
 
